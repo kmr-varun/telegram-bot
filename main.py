@@ -24,8 +24,8 @@ def handle_video(message):
         file_info = bot.get_file(video.file_id)
         records = table.create({'vlink': video.file_id})
         image_path = 'thumb.png'
-        bot.send_photo('-4135712186', open(image_path, 'rb'), caption=f'Here is the Link \n Link: https://t.me/thundr_uploader_bot?start={records['id']}')
-        # bot.send_photo('-4135712186', image_path, caption=f'Here is the Link \n Link: https://t.me/thundr_uploader_bot?start={records['id']}')
+        bot.send_photo('-4135712186', open(image_path, 'rb'), caption='Here is the Link \n Link: https://t.me/thundr_uploader_bot?start=' + records['id'])
+        
         bot.reply_to(message, "Video Sent Successfully!")
     else:
         bot.send_message(message.chat.id, 'Hello')
