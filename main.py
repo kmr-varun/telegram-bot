@@ -1,6 +1,9 @@
 import telebot
 from pyairtable import Api
 
+from keep_alive import keep_alive
+keep_alive()
+
 bot = telebot.TeleBot("6744089416:AAH_Mlsqkwtm16MpG-B-epnK8N_cWZKqaqE")
 token = 'patThcgATHQGPJC7g.a6c6f1407e17d116c5160333d0c19901677e2ed2cbbd7f431f313ea06dd5a5f3'
 api = Api(token)
