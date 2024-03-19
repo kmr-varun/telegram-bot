@@ -1,7 +1,9 @@
+import os
 import telebot
 import csv
 import random
 import string
+from ffmpeg import FFmpeg
 
 from keep_alive import keep_alive
 keep_alive()
@@ -69,15 +71,21 @@ def send_data(message):
 def handle_video(message):
     if message.from_user.id == 1590174243:
         video = message.video
-        file_info = bot.get_file(video.file_id)
+        video_file = bot.get_file(video.file_id)
         existing_ids = get_existing_ids()
         unique_id = generate_unique_id(existing_ids)
+        video_file.download(unique_id + '.mp4')
+        video_path = unique_id + '.mp4'
+        thumb_path = unique_id + '.jpg'
+        ffmpeg = FFmpeg().input(video_path, {"ss": "00:00:05"}).output(thumb_path, {"vframes": "1"})
+        ffmpeg.execute()
         with open('video_ids.csv', 'a', newline='') as csvfile:
             video_writer = csv.writer(csvfile)
             video_writer.writerow([unique_id, video.file_id])
-        image_path = 'thumb.png'
+        image_path = thumb_path
         bot.send_photo('-4135712186', open(image_path, 'rb'), caption='Here is the Link \n Link: https://t.me/thundr_uploader_bot?start=' + unique_id)
-        
+        os.remove(video_path)
+        os.remove(thumb_path)
         bot.reply_to(message, "Video Sent Successfully!")
     else:
         bot.send_message(message.chat.id, 'Hello')
