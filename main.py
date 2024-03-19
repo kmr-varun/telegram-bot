@@ -5,8 +5,8 @@ import random
 import string
 from ffmpeg import FFmpeg
 
-# from keep_alive import keep_alive
-# keep_alive()
+from keep_alive import keep_alive
+keep_alive()
 
 bot = telebot.TeleBot("6744089416:AAH_Mlsqkwtm16MpG-B-epnK8N_cWZKqaqE")
 
