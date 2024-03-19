@@ -39,6 +39,17 @@ def send_welcome(message):
         records = get_video_id_by_name(id)
         bot.send_video(message.chat.id, records, protect_content=True)
 
+@bot.message_handler(commands=['get_data'])
+def send_data(message):
+    if message.from_user.id == 1590174243:
+        try:
+            file_path = 'video_ids.csv'
+            bot.send_document(message.chat.id, open(file_path, 'rb'))
+        except Exception as e:
+            bot.reply_to(message, "Error sending file: " + str(e))
+    else:
+        bot.reply_to(message, "Hello")
+
 @bot.message_handler(content_types=['video'])
 def handle_video(message):
     if message.from_user.id == 1590174243:
