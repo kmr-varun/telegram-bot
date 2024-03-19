@@ -1,19 +1,12 @@
-import os
 import telebot
 import csv
 import random
 import string
-from ffmpeg import FFmpeg
 
 from keep_alive import keep_alive
 keep_alive()
 
 bot = telebot.TeleBot("6744089416:AAH_Mlsqkwtm16MpG-B-epnK8N_cWZKqaqE")
-
-DOWNLOAD_DIR = 'data'
-
-if not os.path.exists(DOWNLOAD_DIR):
-    os.makedirs(DOWNLOAD_DIR)
 
 def generate_unique_id(existing_ids):
     while True:
@@ -79,22 +72,10 @@ def handle_video(message):
         video_file = bot.get_file(video.file_id)
         existing_ids = get_existing_ids()
         unique_id = generate_unique_id(existing_ids)
-        video_path = unique_id + '.mp4'
-        thumb_path = unique_id + '.jpg'
-        downloaded_file = bot.download_file(video_file.file_path)
-        video_file_path = os.path.join(DOWNLOAD_DIR, video_path)
-        with open(video_file_path, 'wb') as f:
-            f.write(downloaded_file)
-        
-        ffmpeg = FFmpeg().input(os.path.join(DOWNLOAD_DIR, video_path), {"ss": "00:00:05"}).output(os.path.join(DOWNLOAD_DIR, thumb_path), {"vframes": "1"})
-        ffmpeg.execute()
         with open('video_ids.csv', 'a', newline='') as csvfile:
             video_writer = csv.writer(csvfile)
             video_writer.writerow([unique_id, video.file_id])
-        image_path = thumb_path
-        bot.send_photo('-4135712186', open(os.path.join(DOWNLOAD_DIR, thumb_path), 'rb'), caption='Here is the Link \n Link: https://t.me/thundr_uploader_bot?start=' + unique_id)
-        os.remove(os.path.join(DOWNLOAD_DIR, video_path))
-        os.remove(os.path.join(DOWNLOAD_DIR, thumb_path))
+        bot.send_photo('-4135712186', open('thumb.png', 'rb'), caption='Here is the Link \n Link: https://t.me/thundr_uploader_bot?start=' + unique_id)
         bot.reply_to(message, "Video Sent Successfully!")
     else:
         bot.send_message(message.chat.id, 'Hello')
