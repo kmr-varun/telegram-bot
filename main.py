@@ -50,6 +50,21 @@ def send_data(message):
     else:
         bot.reply_to(message, "Hello")
 
+@bot.message_handler(commands=['add_data'])
+def send_data(message):
+    if message.from_user.id == 1590174243:
+        try:
+            id = message.text.replace("/add_data  ", "")
+            nids = id.split(',')
+            with open('video_ids.csv', 'a', newline='') as csvfile:
+                video_writer = csv.writer(csvfile)
+                video_writer.writerow([nids[0], nids[1]])
+            bot.reply_to(message, "File Updated")
+        except Exception as e:
+            bot.reply_to(message, "Error sending file: " + str(e))
+    else:
+        bot.reply_to(message, "Hello")
+
 @bot.message_handler(content_types=['video'])
 def handle_video(message):
     if message.from_user.id == 1590174243:
