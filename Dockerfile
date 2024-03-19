@@ -15,4 +15,4 @@ COPY . .
 EXPOSE 8080
 
 # Command to run on server
-CMD ["python main.py"]
+CMD ["python", "main.py"]
